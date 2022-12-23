@@ -1,0 +1,26 @@
+<%# Objeto a mandar solo para el head
+{title: "titulo",
+css: "mandar un array con las rutas(vacio, con varias rutas o solo con una pero que sea un array),
+scriptsBefore: "mandar un array con las rutas(vacio, con varias rutas o solo con una pero que sea un array)",
+scriptsAfter: "mandar un array con las rutas(vacio, con varias rutas o solo con una pero que sea un array)"} %> 
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <% scriptsBefore.forEach(element => { %>
+        <script src="<%= element %>"></script>
+    <% }) %>
+
+    <% scriptsAfter.forEach(element => { %>
+        <script defer src="<%= element %>"></script>
+    <% }) %>
+    
+    <% css.forEach(element => { %>
+        <link rel="stylesheet" href="<%= element %> ">
+    <% }) %>
+    <title><%= title %></title>
+</head>

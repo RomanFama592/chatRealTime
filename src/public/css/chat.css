@@ -1,0 +1,31 @@
+* {
+  padding: 0%;
+  margin: 0%;
+}
+
+body {
+  height: 5000px;
+}
+
+#header-main {
+  gap: 2%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.75);
+  padding: 1%;
+}
+
+#notification-conteiner {
+  padding: 10px;
+  display: none;
+  position: absolute;
+  top: 10%;
+  width: 30%;
+  height: 30%;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+#notification-conteiner div {
+  color: blanchedalmond;
+}
