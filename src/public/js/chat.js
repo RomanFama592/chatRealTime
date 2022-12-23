@@ -1,9 +1,9 @@
-let socket = io();
+const socket = io({transports: ['websocket'], upgrade: false});
 
-let inputText = document.getElementById("inputText");
-let chat = document.getElementById("chat-conteiner");
-let chatForm = document.getElementById("chatForm");
-let notification = document.getElementById("notification-conteiner");
+const inputText = document.getElementById("inputText");
+const chat = document.getElementById("chat-conteiner");
+const chatForm = document.getElementById("chatForm");
+const notification = document.getElementById("notification-conteiner");
 
 document.getElementById("buttonNoti").addEventListener("click", () => {
     /* no funciona el hidden
