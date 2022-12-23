@@ -10,7 +10,7 @@ router.get("/chat", (req, res) => {
     title: "Chat global",
     css: ["css/chat.css"],
     scriptsBefore: ["/socket.io/socket.io.js"],
-    scriptsAfter: ["/js/chat.js"]
+    scriptsAfter: ["js/chat/utils.js", "js/chat/chat.js"]
   });
 });
 
