@@ -20,7 +20,7 @@ io.on("connection", (client) => {
     );
   };
   commands["/noti"] = (msg) => {
-    if (msg.length === 3) {
+    if (msg.split(" ").length === 3) {
       emitNotification(io, msg.split(" "), client.username);
     } else {
       client.emit(
