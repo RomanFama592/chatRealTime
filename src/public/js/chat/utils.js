@@ -41,7 +41,7 @@ const subscriptionPush = async (PublicKey) => {
   const subscription = await register.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: urlBase64ToUint8Array(PublicKey),
-  });
+  }).then(a => a);
 
   socket.emit("subscriptionPush", subscription)
 };
