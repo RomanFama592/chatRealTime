@@ -6,7 +6,7 @@ const chat = document.getElementById("chat-conteiner");
 const chatForm = document.getElementById("chatForm");
 const notification = document.getElementById("notification-conteiner");
 
-inputText.focus()
+inputText.focus();
 
 document.getElementById("buttonNoti").addEventListener("click", () => {
   /* no funciona el hidden
@@ -27,6 +27,7 @@ chatForm.addEventListener("submit", (event) => {
   }
   socket.emit("chat", inputText.value);
   inputText.value = "";
+  inputText.focus();
 });
 
 socket.on("clearChat", () => {

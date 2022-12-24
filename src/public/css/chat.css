@@ -24,6 +24,8 @@ body {
   width: 30%;
   height: 30%;
   background-color: rgba(0, 0, 0, 0.75);
+  overflow-y: scroll;
+  box-shadow: 0 0 10px black ;
 }
 
 #notification-conteiner div {
