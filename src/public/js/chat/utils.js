@@ -32,16 +32,19 @@ function urlBase64ToUint8Array(base64String) {
   return outputArray;
 }
 
-const subscriptionPush = async (PublicKey) => {
+async function subscriptionPush(PublicKey) {
   //resolver el error del path
   const register = await navigator.serviceWorker.register("/worker.js", {
     scope: "/"
   });
 
+  console.log(register)
+
   const subscription = await register.pushManager.subscribe({
     userVisibleOnly: true,
-    applicationServerKey: urlBase64ToUint8Array(PublicKey),
-  }).then(a => a);
+    applicationServerKey: PublicKey,
+  });
+  
 
-  socket.emit("subscriptionPush", subscription)
+  return subscription
 };

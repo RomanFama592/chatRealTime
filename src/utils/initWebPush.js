@@ -1,4 +1,4 @@
-const webPush = new require("web-push");
+const webPush = require("web-push");
 
 webPush.setVapidDetails(
   process.env.IP,

@@ -26,7 +26,11 @@ showNotiButton.addEventListener("click", async () => {
   if (showNotiButton.checked) {
     showNotiButton.innerText = "Desactivar notificaciones push";
     if ("serviceWorker" in navigator) {
-      subscriptionPush(PubliKey).catch(err => console.error(err))
+      subscriptionPush(PubliKey)
+      .then((value)=>{
+        socket.emit("subscriptionPush", value)
+      })
+      .catch(err => console.error(err))
     }
   } else {
     showNotiButton.innerText = "Activar notificaciones push";
