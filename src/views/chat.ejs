@@ -1,6 +1,6 @@
 <%- include("./templates/head.ejs") %>
 <body>
-    <header id="header-main">
+    <header id="header-main" style="user-select: none;">
         <h1>chat</h1>
         <button id="buttonNoti">😀</button>
         <button id="showNotiButton"></button>
@@ -10,7 +10,7 @@
         <ul id="chat-conteiner" >
             
         </ul>
-        <form id="chatForm">
+        <form id="chatForm" style="user-select: none;">
             <input id="inputText" type="text" placeholder='Pon "/help" para saber sobre los comandos'>
             <button type="submit">Send</button>
         </form>

@@ -21,11 +21,24 @@ document.getElementById("buttonNoti").addEventListener("click", () => {
   }
 });
 
-showNotiButton.addEventListener("click", () => {
+showNotiButton.addEventListener("click", async () => {
+  const PubliKey = await fetch("/clave-publica").then(res => res.text()).then(data => data)
   if (showNotiButton.checked) {
-    showNotiButton.innerText = "Desactivar notificaciones";
+    showNotiButton.innerText = "Desactivar notificaciones push";
+    if ("serviceWorker" in navigator) {
+      subscriptionPush(PubliKey).catch(err => console.error(err))
+    }
   } else {
-    showNotiButton.innerText = "Activar notificaciones";
+    showNotiButton.innerText = "Activar notificaciones push";
+    if(window.navigator && navigator.serviceWorker) {
+      navigator.serviceWorker.getRegistrations()
+      .then(function(registrations) {
+        for(let registration of registrations) {
+          registration.unregister();
+          console.log("worker elimited")
+        }
+      });
+    }
   }
   showNotiButton.checked = !showNotiButton.checked;
 });
@@ -46,12 +59,6 @@ socket.on("clearChat", () => {
   chat.innerHTML = "";
 });
 
-socket.on("loadChatPrevious", (array) => {
-  array.forEach((element) => {
-    createMsg(element);
-  });
-});
-
 socket.on("chat", (msg) => {
   createMsg(msg);
 });
@@ -61,10 +68,16 @@ socket.on("notification", (msg) => {
   notification.style.display = "inline-block";
 });
 
-socket.on("error", (error) => {
-  alert(error);
+socket.on("loadChatPrevious", (array) => {
+  array.forEach((element) => {
+    createMsg(element);
+  });
 });
 
 socket.on("disconnect", () => {
   location.reload();
+});
+
+socket.on("error", (error) => {
+  alert(error);
 });

@@ -1,8 +1,10 @@
-const io = require("../utils/declaredIO");
+const io = require("../utils/declaredSocketIO");
 const emitNotification = require("./emitNotification");
 const emitMsg = require("./constructorMsg");
+const webPush = require("../utils/initWebPush");
 
 var msgCurrentSession = [];
+var authPush = "";
 
 io.on("connection", (client) => {
   var commands = new Array();
@@ -12,10 +14,7 @@ io.on("connection", (client) => {
     io.emit("clearChat", "");
     emitNotification(
       io,
-      [
-        "limpieza de chats",
-        "un usuario a limpiado todo los mensajes...",
-      ],
+      ["limpieza de chats", "un usuario a limpiado todo los mensajes..."],
       client.username
     );
   };
@@ -52,19 +51,27 @@ io.on("connection", (client) => {
   };
 
   client.on("username", (username) => {
-    console.log(username)
     client.username = username != null ? username : client.id;
-    let msgToSend = emitMsg(`"${client.username}" se ha conectado...`, "", false);
+    let msgToSend = emitMsg(
+      `"${client.username}" se ha conectado...`,
+      "",
+      false
+    );
     client.emit("loadChatPrevious", msgCurrentSession);
     io.emit("chat", msgToSend);
     console.log(msgToSend);
     msgCurrentSession.push(msgToSend);
   });
 
-  client.on("chat", (msg) => {
+  client.on("chat", async (msg) => {
     if (msg.slice(0, 1) !== "/") {
       let msgToSend = emitMsg(msg, client.username);
       io.emit("chat", msgToSend);
+      let a = JSON.stringify({
+        title: "a",
+        messege: "b",
+      })
+      await webPush.sendNotification(authPush, a).catch(err => console.log(err));
       console.log(msgToSend);
       return msgCurrentSession.push(msgToSend);
     }
@@ -72,6 +79,11 @@ io.on("connection", (client) => {
     commands[msg.split(" ")[0]]
       ? commands[msg.split(" ")[0]](msg)
       : commands.notCommandFound(msg);
+  });
+
+  client.on("subscriptionPush", (data) => {
+    authPush = data;
+    console.log(authPush)
   });
 
   client.on("disconnect", () => {
