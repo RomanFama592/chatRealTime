@@ -1,7 +1,6 @@
 console.log("worker funka")
 
-function showNotification() {
-
+function showNotificationd(self) {
   // Verificamos si el usuario ya ha dado permiso para mostrar notificaciones
   if (Notification.permission === "granted") {
     // Si ya tiene permiso, mostramos la notificación
@@ -15,7 +14,7 @@ function showNotification() {
     Notification.requestPermission().then(function (permission) {
       // Si el usuario acepta, mostramos la notificación
       if (permission === "granted") {
-        new Notification("Título de la notificación", {
+        return self.registration.showNotification("Título de la notificación", {
           body: "Este es el cuerpo de la notificación",
         });
       }
@@ -26,5 +25,5 @@ function showNotification() {
 
 self.addEventListener('push', event => {
     const data = event.data.json();
-    showNotification()
+    showNotificationd(self)
   });

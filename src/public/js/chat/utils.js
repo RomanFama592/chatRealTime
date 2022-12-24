@@ -38,8 +38,6 @@ async function subscriptionPush(PublicKey) {
     scope: "/"
   });
 
-  console.log(register)
-
   const subscription = await register.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: PublicKey,
