@@ -3,8 +3,9 @@ socket.emit("username", prompt("¿como te vas a llamar?"));
 
 const inputText = document.getElementById("inputText");
 const chat = document.getElementById("chat-conteiner");
-const chatForm = document.getElementById("chatForm");
 const notification = document.getElementById("notification-conteiner");
+const showNotiButton = document.getElementById("showNotiButton");
+showNotiButton.checked = false;
 
 inputText.focus();
 
@@ -20,7 +21,18 @@ document.getElementById("buttonNoti").addEventListener("click", () => {
   }
 });
 
-chatForm.addEventListener("submit", (event) => {
+showNotiButton.addEventListener("click", () => {
+  if (showNotiButton.checked) {
+    showNotiButton.innerText = "Desactivar notificaciones";
+  } else {
+    showNotiButton.innerText = "Activar notificaciones";
+  }
+  showNotiButton.checked = !showNotiButton.checked;
+});
+
+showNotiButton.click();
+
+document.getElementById("chatForm").addEventListener("submit", (event) => {
   event.preventDefault();
   if (inputText.value == "") {
     return alert("Escriba algo para enviar");
@@ -51,4 +63,8 @@ socket.on("notification", (msg) => {
 
 socket.on("error", (error) => {
   alert(error);
+});
+
+socket.on("disconnect", () => {
+  location.reload();
 });

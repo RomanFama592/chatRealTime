@@ -1,0 +1,65 @@
+* {
+  padding: 0%;
+  margin: 0%;
+}
+
+body {
+  overflow-y: scroll;
+  height: auto;
+  text-align: center;
+}
+
+#header-main {
+  gap: 5%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.85);
+  padding: 1%;
+  color: bisque;
+} h1{
+  position: absolute;
+  left: 1%;
+}
+
+#notification-conteiner {
+  display: none;
+  position: absolute;
+  overflow-y: scroll;
+  gap: 2%;
+  top: 9%;
+  right: 5%;
+  width: 25%;
+  height: 40%;
+  background-color: rgba(0, 0, 0, 0.9);
+  box-shadow: 0 0 10px rgb(0, 0, 0);
+}
+
+#notification-conteiner div {
+  gap: 2%;
+  margin: 1%;
+  color: bisque;
+  border: 2px solid bisque;
+}
+
+.shadowWithBackground {
+  position: relative;
+  margin: 1%;
+  padding: 2%;
+  background-color: rgba(0, 0, 0, 0.75);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgb(0, 0, 0);
+  color: bisque;
+}input {
+  margin: 2%;
+  width: 40%;
+}
+
+li{
+  list-style: none;
+  text-align: left;
+  border-bottom: 2px dashed;
+  padding: 0.5%;
+}
+
+

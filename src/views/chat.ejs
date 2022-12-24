@@ -3,16 +3,21 @@
     <header id="header-main">
         <h1>chat</h1>
         <button id="buttonNoti">😀</button>
-        <div id="notification-conteiner" >
+        <button id="showNotiButton"></button>
 
-        </div>
     </header>
-    <ul id="chat-conteiner" >
-        
-    </ul>
-    <form id="chatForm">
-        <input id="inputText" type="text" placeholder='Pon "/help" para saber sobre los comandos'>
-        <button type="submit">Send</button>
-    </form>
+    <div class="shadowWithBackground">
+        <ul id="chat-conteiner" >
+            
+        </ul>
+        <form id="chatForm">
+            <input id="inputText" type="text" placeholder='Pon "/help" para saber sobre los comandos'>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+    <%- include("./templates/footer.ejs") %>
+    <div id="notification-conteiner" >
+            
+    </div>
 </body>
 </html>

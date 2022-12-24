@@ -14,7 +14,7 @@ io.on("connection", (client) => {
       io,
       [
         "limpieza de chats",
-        "el usuario que envio la notificacion a limpiado los mensajes",
+        "un usuario a limpiado todo los mensajes...",
       ],
       client.username
     );
@@ -52,8 +52,9 @@ io.on("connection", (client) => {
   };
 
   client.on("username", (username) => {
+    console.log(username)
     client.username = username != null ? username : client.id;
-    let msgToSend = emitMsg(`${client.username} se ha conectado...`, "", false);
+    let msgToSend = emitMsg(`"${client.username}" se ha conectado...`, "", false);
     client.emit("loadChatPrevious", msgCurrentSession);
     io.emit("chat", msgToSend);
     console.log(msgToSend);
@@ -64,7 +65,7 @@ io.on("connection", (client) => {
     if (msg.slice(0, 1) !== "/") {
       let msgToSend = emitMsg(msg, client.username);
       io.emit("chat", msgToSend);
-      console.log(msgToSend)
+      console.log(msgToSend);
       return msgCurrentSession.push(msgToSend);
     }
 
@@ -74,20 +75,15 @@ io.on("connection", (client) => {
   });
 
   client.on("disconnect", () => {
-    if (client.username != undefined) {
-      let msgToSend = emitMsg(
-        `${client.username} se ha desconectado...`,
-        "",
-        false
-      );
-      io.emit("chat", msgToSend);
-      console.log(msgToSend);
-      return msgCurrentSession.push(msgToSend);
-    }
-    client.emit(
-      "error",
-      "su nombre de usuario no existe o hubo un error, por favor recargue la pagina"
+    let msgToSend = emitMsg(
+      `"${client.username}" se ha desconectado...`,
+      "",
+      false
     );
+    io.emit("chat", msgToSend);
+    console.log(msgToSend);
+    client.disconnect(true);
+    msgCurrentSession.push(msgToSend);
   });
 });
 
