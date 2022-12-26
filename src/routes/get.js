@@ -14,12 +14,17 @@ router.get("/chat", (req, res) => {
     title: "Chat global",
     css: ["css/main.css"],
     scriptsBefore: ["/socket.io/socket.io.js"],
-    scriptsAfter: ["js/chat/utils.js", "js/chat/chat.js"],
+    scriptsAfter: [
+      "js/chat/main.js",
+      "js/chat/utils.js",
+      "js/chat/serverListeners.js",
+      "js/chat/events.js",
+    ],
   });
 });
 
-router.get("/clave-publica", (req, res) => {
-  res.status(200).send(process.env.publicKey);
+router.get("/login", (req, res) => {
+  res.render()
 });
 
 module.exports = router;

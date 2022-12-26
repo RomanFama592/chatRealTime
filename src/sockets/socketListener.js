@@ -1,57 +1,19 @@
 const io = require("../utils/declaredSocketIO");
-const emitNotification = require("./emitNotification");
 const emitMsg = require("./constructorMsg");
-const webPush = require("../utils/initWebPush");
+const commands = require("./commands");
 
 var msgCurrentSession = [];
-var authPush = "";
 
 io.on("connection", (client) => {
-  var commands = new Array();
-
-  commands["/clear"] = () => {
-    msgCurrentSession = [];
-    io.emit("clearChat", "");
-    emitNotification(
-      io,
-      ["limpieza de chats", "un usuario a limpiado todo los mensajes..."],
-      client.username
-    );
-  };
-
-  commands["/noti"] = (msg) => {
-    if (msg.split(" ").length === 3) {
-      emitNotification(
-        io,
-        msg.split(" ").filter((item, index) => index != 0),
-        client.username
-      );
-    } else {
-      client.emit("chat", [
-        "",
-        `::hay un error en los parametros en ${msg} puede que sea los espacios entre las palabras que no son soportados. "/help" para saber mas sobre los comandos.`,
-      ]);
-    }
-  };
-
-  commands["/help"] = () => {
-    client.emit("chat", ["", "::comandos:"]);
-    for (key in commands) {
-      if (!["/help", "notCommandFound"].includes(key)) {
-        client.emit("chat", ["", `  --${key}`]);
-      }
-    }
-  };
-
-  commands.notCommandFound = (msg) => {
-    client.emit("chat", [
-      "",
-      `::el comando ${msg} no existe "/help" para saber mas sobre los comandos.`,
-    ]);
-  };
+  console.log(`ip:${client.handshake.headers.host}`);
 
   client.on("username", (username) => {
-    client.username = username != null ? username : client.id;
+    if (username == null || username == "") {
+      client.username = client.id;
+    } else {
+      client.username = username;
+    }
+
     let msgToSend = emitMsg(
       `"${client.username}" se ha conectado...`,
       "",
@@ -59,31 +21,26 @@ io.on("connection", (client) => {
     );
     client.emit("loadChatPrevious", msgCurrentSession);
     io.emit("chat", msgToSend);
-    console.log(msgToSend);
     msgCurrentSession.push(msgToSend);
   });
 
   client.on("chat", async (msg) => {
-    if (msg.slice(0, 1) !== "/") {
-      let msgToSend = emitMsg(msg, client.username);
-      io.emit("chat", msgToSend);
-      let a = JSON.stringify({
-        title: "a",
-        messege: "b",
-      })
-      await webPush.sendNotification(authPush, a).catch(err => console.log(err));
-      console.log(msgToSend);
-      return msgCurrentSession.push(msgToSend);
+    if (msg.slice(0, 1) === "/") {
+      let self = { io: io, msg: msg, client: client };
+
+      if (msg.split(" ")[0] == "/clear") {
+        msgCurrentSession = [];
+      }
+
+      return commands[msg.split(" ")[0]]
+        ? commands[msg.split(" ")[0]](self)
+        : commands.notCommandFound(self);
     }
 
-    commands[msg.split(" ")[0]]
-      ? commands[msg.split(" ")[0]](msg)
-      : commands.notCommandFound(msg);
-  });
+    let msgToSend = emitMsg(msg, client.username);
+    io.emit("chat", msgToSend);
 
-  client.on("subscriptionPush", (data) => {
-    authPush = data;
-    console.log(authPush)
+    msgCurrentSession.push(msgToSend);
   });
 
   client.on("disconnect", () => {
@@ -93,7 +50,6 @@ io.on("connection", (client) => {
       false
     );
     io.emit("chat", msgToSend);
-    console.log(msgToSend);
     client.disconnect(true);
     msgCurrentSession.push(msgToSend);
   });
