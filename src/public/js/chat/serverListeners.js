@@ -17,10 +17,6 @@ socket.on("loadChatPrevious", (array) => {
   });
 });
 
-socket.on("disconnect", () => {
-  location.reload();
-});
-
 socket.on("error", (error) => {
   alert(error);
 });

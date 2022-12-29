@@ -1,5 +1,8 @@
-const socket = io("", { transports: ["websocket"], upgrade: false });
-socket.emit("username", prompt("¿como te vas a llamar?"));
+const socket = io("", { transports: ["websocket"], upgrade: false }).connect();
+
+let username = document.getElementById("username").innerHTML;
+
+socket.emit("username", username);
 
 const inputText = document.getElementById("inputText");
 const chat = document.getElementById("chat-conteiner");

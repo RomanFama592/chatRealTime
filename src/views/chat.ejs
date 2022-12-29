@@ -1,22 +1,17 @@
 <%- include("./templates/head.ejs") %>
 <body>
     <header id="header-main" style="user-select: none;">
-        <h1>chat</h1>
+        <a id="username" href="/"><%= username %></a>
         <button id="buttonNoti">😀</button>
-
     </header>
     <div class="shadowWithBackground">
-        <ul id="chat-conteiner" >
-            
-        </ul>
+        <ul id="chat-conteiner"></ul>
         <form id="chatForm" style="user-select: none;">
             <input id="inputText" type="text" placeholder='Pon "/help" para saber sobre los comandos'>
             <button type="submit">Send</button>
         </form>
     </div>
     <%- include("./templates/footer.ejs") %>
-    <div id="notification-conteiner" >
-            
-    </div>
+    <div id="notification-conteiner"></div>
 </body>
 </html>

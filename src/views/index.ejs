@@ -1,11 +1,24 @@
 <%- include("./templates/head.ejs") %>
 <body>
-    <h1>Inicio</h1>
-    <ul>
-        <li>
-            <a href="/chat">Chat</a>
-        </li>
-    </ul>
+    <% if (userAuth) { %>
+        <h1>Bienvenido devuelta "<%= username %>" !</h1>
+        <ul>
+            <li>
+                <a href="/chat">Chat</a>
+                <a href="/logout">Logout</a>
+            </li>
+        </ul>
+    <% } else{%>
+        <h1>Bienvenido nuevo visitante!</h1>
+        <ul>
+            <li>
+                <a href="/chat">Chat</a>
+                <a href="/signup">Signup</a>
+                <a href="/login">Login</a>
+            </li>
+        </ul>
+    <% } %> 
+
     <%- include("./templates/footer.ejs") %>
 </body>
 

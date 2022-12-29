@@ -19,9 +19,12 @@ body {
   color: bisque;
 } 
 
-#header-main h1{
+#header-main a{
   position: absolute;
   left: 1%;
+  font-size: larger;
+  color: bisque;
+  text-decoration: none;
 }
 
 #notification-conteiner {

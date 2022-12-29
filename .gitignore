@@ -1,2 +1,4 @@
 .env
 node_modules
+src/databases/accounts.sqlite
+Manual-hash-passwords.js

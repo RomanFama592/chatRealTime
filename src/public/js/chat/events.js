@@ -1,8 +1,6 @@
 document.getElementById("buttonNoti").addEventListener("click", () => {
-  /* no funciona el hidden
-    notification.hidden = !notification.hidden
-    //console.log(notification.hidden) */
-  //console.log(notification.style.display)
+  //notification.hidden = !notification.hidden
+
   if (notification.style.display === "inline-block") {
     notification.style.display = "";
   } else if (notification.style.display === "") {
@@ -19,3 +17,4 @@ document.getElementById("chatForm").addEventListener("submit", (event) => {
   inputText.value = "";
   inputText.focus();
 });
+

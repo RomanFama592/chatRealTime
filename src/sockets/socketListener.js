@@ -1,21 +1,21 @@
 const io = require("../utils/declaredSocketIO");
 const emitMsg = require("./constructorMsg");
+const Users = require("../databases/Users");
 const commands = require("./commands");
 
 var msgCurrentSession = [];
 
 io.on("connection", (client) => {
-  console.log(`ip:${client.handshake.headers.host}`);
-
-  client.on("username", (username) => {
-    if (username == null || username == "") {
-      client.username = client.id;
-    } else {
-      client.username = username;
-    }
+  client.on("username", async (username) => {
+    const user = await Users.findOne({ where: { username: username } }).then(
+      (value) => value
+    );
+    client.username = username;
+    client.Levelrol = user.rol == "admin" ? 3 : user.rol == "user" ? 2 : 1;
+    client.rol = user === null ? "NULL" : user.rol.toUpperCase();
 
     let msgToSend = emitMsg(
-      `"${client.username}" se ha conectado...`,
+      `"${client.rol}:${client.username}" se ha conectado...`,
       "",
       false
     );
@@ -24,7 +24,7 @@ io.on("connection", (client) => {
     msgCurrentSession.push(msgToSend);
   });
 
-  client.on("chat", async (msg) => {
+  client.on("chat", (msg) => {
     if (msg.slice(0, 1) === "/") {
       let self = { io: io, msg: msg, client: client };
 
@@ -37,15 +37,18 @@ io.on("connection", (client) => {
         : commands.notCommandFound(self);
     }
 
-    let msgToSend = emitMsg(msg, client.username);
+    let msgToSend = emitMsg(msg, client);
     io.emit("chat", msgToSend);
 
     msgCurrentSession.push(msgToSend);
   });
 
   client.on("disconnect", () => {
+    if(client.username === undefined){
+      return ""
+    }
     let msgToSend = emitMsg(
-      `"${client.username}" se ha desconectado...`,
+      `"${client.rol}:${client.username}" se ha desconectado...`,
       "",
       false
     );
